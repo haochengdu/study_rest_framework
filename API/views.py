@@ -57,3 +57,15 @@ class OrderView(APIView):
         except Exception as e:
             pass
         return JsonResponse(ret)
+
+
+class UserInfoView(APIView):
+    """
+    订单相关业务(普通用户和VIP用户可以看)
+    """
+    permission_classes = [MyPremission,]    #不用全局的权限配置的话，这里就要写自己的局部权限
+    def get(self,request,*args,**kwargs):
+
+        print(request.user)
+        return HttpResponse('用户信息')
+

@@ -17,7 +17,7 @@ APIView.as_view()方法
 ![avatar](./pictures/authentication/6.png)  
 4 在执行APIView中的as_view()方法时去执行其父类View中的as_view()方法。View是Django中的类(from django.views import View)  
 ![avatar](./pictures/authentication/7.png)
-5 由于APIView中复写了dispatch()方法那么执行APIView中的dispatch方法
+5 由于APIView中复写了dispatch()方法那么执行APIView中的dispatch方法  
 6 request = self.initialize_request(request, *args, **kwargs)将Django原生的request封装成drf的request  
 ![avatar](./pictures/authentication/8.png)  
 7 获取authentication_classes = [...] 中认证类的实例对象并作为参数传入Request  
