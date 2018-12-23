@@ -1,9 +1,11 @@
 # -*- coding:utf-8 -*-
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from API import models
 from API.utils.auth import Authentication
+from API.utils.permission import OrdinaryPremission
 
 
 def md5(user):
@@ -45,6 +47,7 @@ class OrderView(APIView):
     """
     订单相关业务
     """
+
     # authentication_classes = [Authentication, ]  # 当没有在setting.py里设置全局认证类时添加认证
     # authentication_classes = []  # 当在setting.py里设置全局认证类时 此处不需要认证
 
@@ -61,11 +64,11 @@ class OrderView(APIView):
 
 class UserInfoView(APIView):
     """
-    订单相关业务(普通用户和VIP用户可以看)
+    订单相关业务
     """
-    permission_classes = [MyPremission,]    #不用全局的权限配置的话，这里就要写自己的局部权限
-    def get(self,request,*args,**kwargs):
+    # permission_classes = [OrdinaryPremission, ]  # 不用全局的权限配置的话，这里就要写自己的局部权限
+    # permission_classes = []  # 当使用了全局权限(即在django的settings.py文件中配置了全局权限)如果不想使用权限则使用空列表
 
+    def get(self, request, *args, **kwargs):
         print(request.user)
         return HttpResponse('用户信息')
-

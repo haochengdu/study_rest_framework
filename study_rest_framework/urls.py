@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from API.views import AuthView, OrderView
+from API.views import AuthView, OrderView, UserInfoView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/v1/auth/', AuthView.as_view()),
     path('api/v1/order/', OrderView.as_view()),
+    path('api/v1/permission/', UserInfoView.as_view())
 ]

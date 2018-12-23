@@ -125,11 +125,12 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 
-# 设置全局认证
+# 设置全局认证和权限
 REST_FRAMEWORK = {
     # 里面写你的认证的类的路径
-    "DEFAULT_AUTHENTICATION_CLASSES": ['API.utils.auth.Authentication', ]
-
+    "DEFAULT_AUTHENTICATION_CLASSES": ['API.utils.auth.Authentication', ],
+    # 写的是权限类的路径
+    "DEFAULT_PERMISSION_CLASSES": ['API.utils.permission.OrdinaryPremission']
 }
 
 

@@ -6,9 +6,10 @@
 @File    : permission.py.py
 @Software: PyCharm
 """
+from rest_framework.permissions import BasePermission
 
 
-class SVIPPremission(object):
+class SVIPPremission(BasePermission):
     message = "必须是SVIP才能访问"
 
     def has_permission(self, request, view):
@@ -17,7 +18,7 @@ class SVIPPremission(object):
         return True
 
 
-class MyPremission(object):
+class OrdinaryPremission(BasePermission):
     def has_permission(self, request, view):
         if request.user.user_type == 3:
             return False
