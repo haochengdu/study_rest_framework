@@ -2,6 +2,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.http import JsonResponse
+from rest_framework.versioning import QueryParameterVersioning
 from rest_framework.views import APIView
 from API import models
 from API.utils.auth import Authentication
@@ -66,6 +67,7 @@ class UserInfoView(APIView):
     """
     订单相关业务
     """
+
     # permission_classes = [OrdinaryPremission, ]  # 不用全局的权限配置的话，这里就要写自己的局部权限
     # permission_classes = []  # 当使用了全局权限(即在django的settings.py文件中配置了全局权限)如果不想使用权限则使用空列表
 
@@ -83,3 +85,13 @@ class UserInfoView(APIView):
     def get(self, request, *args, **kwargs):
         print(request.user)
         return HttpResponse('用户信息')
+
+
+class UserView(APIView):
+    # get方式传入入版本号
+    versioning_class = QueryParameterVersioning
+
+    def get(self, request, *args, **kwargs):
+        # 获取版本
+        print(request.version)
+        return HttpResponse('用户列表')

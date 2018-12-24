@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = '6oj&to$dpqz++4$27$e(cj2kw*myh$@d!@dj_@y@#5jp#f47zt'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -74,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'study_rest_framework.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -84,7 +81,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -104,7 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -118,35 +113,29 @@ USE_L10N = True
 
 USE_TZ = False
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
+# # 设置全局认证和权限
+# REST_FRAMEWORK = {
+#     # 里面写你的认证的类的路径
+#     "DEFAULT_AUTHENTICATION_CLASSES": ['API.utils.auth.Authentication', ],
+#     # 写的是权限类的路径
+#     "DEFAULT_PERMISSION_CLASSES": ['API.utils.permission.OrdinaryPremission'],
+#     # 配置访问频率
+#     # "DEFAULT_THROTTLE_CLASSES": ['API.utils.throttle.VisitThrottle']
+#     "DEFAULT_THROTTLE_CLASSES": ['API.utils.throttle.UserThrottle'],  # 全局配置，登录用户节流限制（10/m）
+#     "DEFAULT_THROTTLE_RATES": {
+#         'anonymity_user': '3/m',  # 没登录用户3/m，anonymity_user就是scope定义的值
+#         'login_user': '2/m',  # 登录用户10/m，login_user就是scope定义的值
+#     }
+# }
 
-# 设置全局认证和权限
+# 版本
 REST_FRAMEWORK = {
-    # 里面写你的认证的类的路径
-    "DEFAULT_AUTHENTICATION_CLASSES": ['API.utils.auth.Authentication', ],
-    # 写的是权限类的路径
-    "DEFAULT_PERMISSION_CLASSES": ['API.utils.permission.OrdinaryPremission'],
-    # 配置访问频率
-    # "DEFAULT_THROTTLE_CLASSES": ['API.utils.throttle.VisitThrottle']
-    "DEFAULT_THROTTLE_CLASSES": ['API.utils.throttle.UserThrottle'],  # 全局配置，登录用户节流限制（10/m）
-    "DEFAULT_THROTTLE_RATES": {
-        'anonymity_user': '3/m',  # 没登录用户3/m，anonymity_user就是scope定义的值
-        'login_user': '2/m',  # 登录用户10/m，login_user就是scope定义的值
-    }
+    "DEFAULT_VERSION": 'v1',  # 默认的版本
+    "ALLOWED_VERSIONS": ['v1', 'v2'],  # 允许的版本
+    "VERSION_PARAM": 'version'  # GET方式url中参数的名字  ?version=xxx
 }
-
-
-
-
-
-
-
-
-
-
-
