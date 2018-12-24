@@ -130,7 +130,14 @@ REST_FRAMEWORK = {
     # 里面写你的认证的类的路径
     "DEFAULT_AUTHENTICATION_CLASSES": ['API.utils.auth.Authentication', ],
     # 写的是权限类的路径
-    "DEFAULT_PERMISSION_CLASSES": ['API.utils.permission.OrdinaryPremission']
+    "DEFAULT_PERMISSION_CLASSES": ['API.utils.permission.OrdinaryPremission'],
+    # 配置访问频率
+    # "DEFAULT_THROTTLE_CLASSES": ['API.utils.throttle.VisitThrottle']
+    "DEFAULT_THROTTLE_CLASSES": ['API.utils.throttle.UserThrottle'],  # 全局配置，登录用户节流限制（10/m）
+    "DEFAULT_THROTTLE_RATES": {
+        'anonymity_user': '3/m',  # 没登录用户3/m，anonymity_user就是scope定义的值
+        'login_user': '2/m',  # 登录用户10/m，login_user就是scope定义的值
+    }
 }
 
 

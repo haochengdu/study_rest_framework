@@ -69,6 +69,17 @@ class UserInfoView(APIView):
     # permission_classes = [OrdinaryPremission, ]  # 不用全局的权限配置的话，这里就要写自己的局部权限
     # permission_classes = []  # 当使用了全局权限(即在django的settings.py文件中配置了全局权限)如果不想使用权限则使用空列表
 
+    # throttle_classes = [VisitThrottle, ]  # 不用全局的节流配置的话，这里就要写自己的局部节流
+    # throttle_classes = []  # 当使用了全局节流(即在django的settings.py文件中配置了全局节流)如果不想使用节流则使用空列表
+
+    # 由于在Django的settings.py中设置了全局的认证，权限和节流，
+    # 现在测试未登录的时的节流，则需要覆盖全局设置的认证权限节流
+    # 如果想使用全局的认证权限节流则不需要额外配置
+    # authentication_classes = []
+    # permission_classes = []
+    # from API.utils.throttle import VisitThrottle
+    # throttle_classes = [VisitThrottle, ]  # 设置成未登录的节流
+
     def get(self, request, *args, **kwargs):
         print(request.user)
         return HttpResponse('用户信息')

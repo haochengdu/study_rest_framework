@@ -109,7 +109,7 @@ def dispatch(self, request, *args, **kwargs):
     self.response = self.finalize_response(request, response, *args, **kwargs)
     return self.response
 ```
-6. drf APIView类中def initial(self, request, *args, **kwargs):方法,先执行认证再执行权限，权限是建立在认证的基础上的.  
+6 drf APIView类中def initial(self, request, *args, **kwargs):方法,先执行认证再执行权限，权限是建立在认证的基础上的.  
 因为权限里使用到了request.user。user表里存储了用户对应的权限
 ```
 def initial(self, request, *args, **kwargs):
@@ -134,7 +134,7 @@ def initial(self, request, *args, **kwargs):
     # 访问频率
     self.check_throttles(request)
 ```
-7. drf APIView类中def get_permissions(self):方法
+7 drf APIView类中def get_permissions(self):方法
 ```
 def get_permissions(self):
     """
@@ -143,7 +143,7 @@ def get_permissions(self):
     # 返回指定的权限类的实例对象
     return [permission() for permission in self.permission_classes]
 ```
-8. drf APIView类中def check_permissions(self, request):方法
+8 drf APIView类中def check_permissions(self, request):方法
 ```
 def check_permissions(self, request):
     """
@@ -159,7 +159,7 @@ def check_permissions(self, request):
                 request, message=getattr(permission, 'message', None)
             )
 ```
-9. 执行自定义的权限类实例对象中的has_permission(self, request, view).返回True或者False  
+9 执行自定义的权限类实例对象中的has_permission(self, request, view).返回True或者False  
 True直接放行执行后面到代码，False被拦截
 ```
 class OrdinaryPremission(BasePermission):
@@ -171,7 +171,7 @@ class OrdinaryPremission(BasePermission):
 ## 二. 权限总结
 ```
 (1)自定义权限类
-自己写的权限类：1.必须继承BasePermission类；  2.必须实现：has_permission方法
+自己写的权限类：1.继承BasePermission类；  2.必须实现：has_permission方法
 (2)返回值
 True   有权访问
 False  无权访问
