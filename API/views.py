@@ -89,9 +89,27 @@ class UserInfoView(APIView):
 
 class UserView(APIView):
     # get方式传入入版本号
-    versioning_class = QueryParameterVersioning
+    # 局部指定版本类，也可以在Django的settings.py中设置成全局的
+    # versioning_class = QueryParameterVersioning
+    # 以下几个参数需要在Django的settings.py中设置
+    # 默认的版本
+    # default_version = api_settings.DEFAULT_VERSION
+    # 允许的版本
+    # allowed_versions = api_settings.ALLOWED_VERSIONS
+    # GET方式url中参数的名字  ?version=xxx
+    # version_param = api_settings.VERSION_PARAM
 
     def get(self, request, *args, **kwargs):
+        """
+        由于在drf的APIView的def initial(self, request, *args, **kwargs):中
+        将版本号和版本实例对象封装进了request，所有可以直接从request中取
+        # 调用APIView中的determine_version方法。
+        version, scheme = self.determine_version(request, *args, **kwargs)
+        # 将版本号和版本的实例对象赋值给新的request对应的属性
+        request.version, request.versioning_scheme = version, scheme
+        """
         # 获取版本
         print(request.version)
-        return HttpResponse('用户列表')
+        # 参数viewname='api_users'即url中path的别名name='api_users'
+        url_path = request.versioning_scheme.reverse(viewname='api_users', request=request)
+        return HttpResponse(url_path)

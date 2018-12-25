@@ -136,6 +136,9 @@ STATIC_URL = '/static/'
 # 版本
 REST_FRAMEWORK = {
     "DEFAULT_VERSION": 'v1',  # 默认的版本
-    "ALLOWED_VERSIONS": ['v1', 'v2'],  # 允许的版本
-    "VERSION_PARAM": 'version'  # GET方式url中参数的名字  ?version=xxx
+    "ALLOWED_VERSIONS": ['v1', 'v2', 'v4'],  # 允许的版本
+    "VERSION_PARAM": 'version',  # GET方式url中参数的名字  ?version=xxx
+    # 指定全局版本类
+    "DEFAULT_VERSIONING_CLASS": 'rest_framework.versioning.URLPathVersioning',
+    # "DEFAULT_VERSIONING_CLASS": 'rest_framework.versioning.QueryParameterVersioning',
 }

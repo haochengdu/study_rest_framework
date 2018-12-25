@@ -26,5 +26,5 @@ urlpatterns = [
     path('api/v1/order/', OrderView.as_view()),
     path('api/v1/permission/', UserInfoView.as_view()),
     # path('api/v1/book/', BookView.as_view()),
-    path('api/', include('API.urls'))
+    path('api/', include('API.urls', namespace=''))
 ]
