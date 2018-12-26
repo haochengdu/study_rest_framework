@@ -86,6 +86,10 @@ class UserInfoView(APIView):
         print(request.user)
         return HttpResponse('用户信息')
 
+    def post(self, request, *args, **kwargs):
+        pass
+
+
 
 class UserView(APIView):
     # get方式传入入版本号
@@ -114,6 +118,17 @@ class UserView(APIView):
         url_path = request.versioning_scheme.reverse(viewname='api_users', request=request)
         return HttpResponse(url_path)
 
+    def post(self, request, *args, **kwargs):
+        """使用序列化类将提交的数据返序列化封装成模型保存"""
+        # 指定序列化类
+        user_info_serializer = UserInfoSerializer(data=request.data)
+        if user_info_serializer.is_valid():
+            print(user_info_serializer.validated_data)
+            user_info_serializer.save()
+            return HttpResponse('save ok')
+        else:
+            return HttpResponse(user_info_serializer.errors)
+
 
 from rest_framework.parsers import JSONParser, FormParser
 
@@ -128,3 +143,58 @@ class ParserView(APIView):
         # 获取解析后的结果
         print(request.data)
         return HttpResponse('paser')
+
+
+from API.models import Role
+from API.serializer import RolesSerializer
+import json
+
+
+class RolesView(APIView):
+    """角色视图类"""
+    # def get(self, request):
+    #     # 获取所有的角色
+    #     roles = Role.objects.all()
+    #     # 指定序列化类
+    #     role_serialzer = RolesSerializer(instance=roles, many=True)  # 序列化多个
+    #     response_data = json.dumps(role_serialzer.data, ensure_ascii=False)
+    #     return HttpResponse(response_data)
+
+    def get(self, request):
+        # 获取所有的角色
+        roles = Role.objects.all().first()
+        # 指定序列化类
+        role_serialzer = RolesSerializer(instance=roles, many=False)  # 序列化一个
+        response_data = json.dumps(role_serialzer.data, ensure_ascii=False)
+        return HttpResponse(response_data)
+
+
+from API.serializer import UserInfoSerializer
+
+
+class UsersInfoView(APIView):
+    """用户信息视图类"""
+    def get(self, request):
+        # 获取到所有的user
+        user_list = models.UserInfo.objects.all()
+        # 指定序列化类
+        # 当要使用HyperlinkedIdentityField生成链接时需要加上context={'request': request}
+        user_serializer = UserInfoSerializer(user_list, many=True, context={'request': request})
+        # 返回数据
+        response_data = json.dumps(user_serializer.data, ensure_ascii=False)
+        return HttpResponse(response_data)
+
+
+from API.serializer import GroupSerializer
+
+
+class GroupDetailView(APIView):
+    """组视图类"""
+    def get(self, request, pk):
+        group = models.UserGroup.objects.filter(id=pk).first()
+        group_serializer = GroupSerializer(group, many=False)
+        response_data = json.dumps(group_serializer.data, ensure_ascii=False)
+        return HttpResponse(response_data)
+
+
+

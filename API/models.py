@@ -15,6 +15,8 @@ class UserInfo(models.Model):
     user_type = models.IntegerField(choices=USER_TYPE)
     username = models.CharField(max_length=32)
     password = models.CharField(max_length=64)
+    group = models.ForeignKey('UserGroup', on_delete=models.CASCADE, null=True, blank=True, default=None)
+    roles = models.ManyToManyField('Role')
 
 
 class UserToken(models.Model):
@@ -23,3 +25,11 @@ class UserToken(models.Model):
     """
     user = models.OneToOneField(UserInfo, on_delete=models.CASCADE)
     token = models.CharField(max_length=64)
+
+
+class UserGroup(models.Model):
+    title = models.CharField(max_length=32)
+
+
+class Role(models.Model):
+    title = models.CharField(max_length=32)
