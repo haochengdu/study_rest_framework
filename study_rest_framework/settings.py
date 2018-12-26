@@ -141,4 +141,6 @@ REST_FRAMEWORK = {
     # 指定全局版本类
     "DEFAULT_VERSIONING_CLASS": 'rest_framework.versioning.URLPathVersioning',
     # "DEFAULT_VERSIONING_CLASS": 'rest_framework.versioning.QueryParameterVersioning',
+    # 指定全局解析器类
+    "DEFAULT_PARSER_CLASSES": ['rest_framework.parsers.JSONParser', 'rest_framework.parsers.FormParser'],
 }

@@ -113,3 +113,18 @@ class UserView(APIView):
         # 参数viewname='api_users'即url中path的别名name='api_users'
         url_path = request.versioning_scheme.reverse(viewname='api_users', request=request)
         return HttpResponse(url_path)
+
+
+from rest_framework.parsers import JSONParser, FormParser
+
+
+class ParserView(APIView):
+    # 局部指定解析类，也可以在Django的settings.py中配置成全局的
+    # JSONParser：表示只能解析content-type:application/json的头
+    # FormParser:表示只能解析content-type:application/x-www-form-urlencoded的头
+    # parser_classes = [JSONParser, FormParser, ]
+
+    def post(self, request, *args, **kwargs):
+        # 获取解析后的结果
+        print(request.data)
+        return HttpResponse('paser')

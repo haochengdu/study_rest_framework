@@ -8,12 +8,13 @@
 """
 from django.urls import path, re_path
 
-from API.views import UserView
+from API.views import UserView, ParserView
 
 urlpatterns = [
     # path('users/', UserView.as_view(), name='api_users'),
     # 当使用re_path时就会把正则匹配到的参数以字典的方式封装到视图的**kwargs
     re_path(r'^(?P<version>[v1|v2|v4]+)/users/$', UserView.as_view(), name='api_users'),
+    path('parser/', ParserView.as_view(),),   # 解析
 ]
 
 
