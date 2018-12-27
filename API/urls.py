@@ -8,7 +8,7 @@
 """
 from django.urls import path, re_path
 
-from API.views import UserView, ParserView, RolesView, UsersInfoView, GroupDetailView
+from API.views import UserView, ParserView, RolesView, UsersInfoView, GroupDetailView, UsersPageView
 
 urlpatterns = [
     path('users/', UserView.as_view(), name='api_users'),
@@ -18,6 +18,7 @@ urlpatterns = [
     path('roles/', RolesView.as_view(), name='role_list'),
     path('usersinfo/', UsersInfoView.as_view(), name='user_list'),
     re_path(r'group/(?P<pk>\d+)/$', GroupDetailView.as_view(), name='group_detail'),
+    path('userspage/', UsersPageView.as_view(), name='users_page'),
 ]
 
 

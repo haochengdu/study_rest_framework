@@ -124,8 +124,8 @@ class UserView(APIView):
         user_info_serializer = UserInfoSerializer(data=request.data)
         if user_info_serializer.is_valid():
             print(user_info_serializer.validated_data)
-            user_info_serializer.save()
-            return HttpResponse('save ok')
+            user_info_serializer.create(user_info_serializer.validated_data)
+            return HttpResponse('creak ok')
         else:
             return HttpResponse(user_info_serializer.errors)
 
@@ -196,5 +196,109 @@ class GroupDetailView(APIView):
         response_data = json.dumps(group_serializer.data, ensure_ascii=False)
         return HttpResponse(response_data)
 
+
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination, CursorPagination
+from API.serializer import UsersPageSerializer
+"""
+可以自定义一个分页类继承PageNumberPagination，设置几个参数。
+#自定义分页类
+class MyPageNumberPagination(PageNumberPagination):
+    #每页显示多少个
+    page_size = 3
+    #默认每页显示3个，可以通过传入pager1/?page=2&size=4,改变默认每页显示的个数
+    page_size_query_param = "size"
+    #最大页数不超过10
+    max_page_size = 10
+    #获取页码数的
+    page_query_param = "page"
+"""
+
+# class UsersPageView(APIView):
+#     """
+#     用户分页视图类
+#     PageNumberPagination
+#     """
+#     def get(self, request):
+#         users = models.UserInfo.objects.all()
+#         # 创建分页对象
+#         pagination = PageNumberPagination()
+#         # 指定每页显示的信息条数，也可以在Django的settings.py中设置成全局的
+#         pagination.page_size = 2
+#         # 获取分页的数据
+#         page_users = pagination.paginate_queryset(users, request)
+#         # 对数据进行序列化
+#         ser = UsersPageSerializer(page_users, many=True)
+#         response_data = json.dumps(ser.data, ensure_ascii=False)
+#         return HttpResponse(response_data)
+
+"""
+可以自定义一个分页类继承LimitOffsetPagination，设置几个参数。
+#自定义分页类2
+class MyLimitOffsetPagination(LimitOffsetPagination):
+    # 默认显示的个数，可以配置成局部也可以在Django的settings.py中设置成全局的
+    default_limit = 2
+    # 当前的位置，根据这参数获取之后的数据
+    offset_query_param = "offset"
+    # 通过limit改变默认显示的个数
+    limit_query_param = "limit"
+    # 一页最多显示的个数
+    max_limit = 10
+"""
+
+
+# class UsersPageView(APIView):
+#     """
+#     用户分页视图类
+#     LimitOffsetPagination
+#     """
+#     def get(self, request):
+#         users = models.UserInfo.objects.all()
+#         # 创建分页对象
+#         pagination = LimitOffsetPagination()
+#         # 默认显示的个数，可以配置成局部也可以在Django的settings.py中设置成全局的
+#         pagination.default_limit = 2
+#         # 一页最多显示的个数
+#         pagination.max_limit = 3
+#         # 获取分页的数据
+#         page_users = pagination.paginate_queryset(users, request)
+#         # 对数据进行序列化
+#         ser = UsersPageSerializer(page_users, many=True)
+#         response_data = json.dumps(ser.data, ensure_ascii=False)
+#         return HttpResponse(response_data)
+
+"""
+# 自定义分页类3 (加密分页)
+class MyCursorPagination(CursorPagination):
+    cursor_query_param = "cursor"
+    # 每页显示2个数据
+    page_size = 2
+    # 排序
+    ordering = 'id'
+    
+    page_size_query_param = None
+    
+    max_page_size = None
+"""
+
+
+class UsersPageView(APIView):
+    """
+    用户分页视图类
+    LimitOffsetPagination
+    """
+    def get(self, request):
+        users = models.UserInfo.objects.all()
+        # 创建分页对象
+        pagination = CursorPagination()
+        # # 默认显示的个数，可以配置成局部也可以在Django的settings.py中设置成全局的
+        # pagination.default_limit = 2
+        # # 一页最多显示的个数
+        # pagination.max_limit = 3
+        # 获取分页的数据
+        page_users = pagination.paginate_queryset(users, request)
+        # 对数据进行序列化
+        ser = UsersPageSerializer(page_users, many=True)
+        response_data = json.dumps(ser.data, ensure_ascii=False)
+        return HttpResponse(response_data)
 
 

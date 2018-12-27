@@ -48,3 +48,25 @@ class UserInfoSerializer(serializers.ModelSerializer):
         model = UserInfo
         fields = "__all__"
 
+
+class UsersPageSerializer(serializers.ModelSerializer):
+    user_type = serializers.CharField(source="get_user_type_display")
+
+    class Meta:
+        model = UserInfo
+        fields = "__all__"
+        depth = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
