@@ -274,31 +274,36 @@ class MyCursorPagination(CursorPagination):
     page_size = 2
     # 排序
     ordering = 'id'
-    
-    page_size_query_param = None
-    
-    max_page_size = None
+    # 通过size改变默认显示的个数
+    page_size_query_param = "size"
+    # 设置每页最大数据量
+    max_page_size = 5
 """
 
 
 class UsersPageView(APIView):
     """
     用户分页视图类
-    LimitOffsetPagination
+    CursorPagination
     """
     def get(self, request):
         users = models.UserInfo.objects.all()
         # 创建分页对象
         pagination = CursorPagination()
-        # # 默认显示的个数，可以配置成局部也可以在Django的settings.py中设置成全局的
-        # pagination.default_limit = 2
-        # # 一页最多显示的个数
-        # pagination.max_limit = 3
+        # 默认显示的个数，可以配置成局部也可以在Django的settings.py中设置成全局的
+        pagination.page_size = 2
+        # 一页最多显示的个数
+        pagination.max_page_size = 5
+        # 排序
+        pagination.ordering = 'id'
+        # 通过size改变默认显示的个数
+        pagination.page_size_query_param = "size"
         # 获取分页的数据
         page_users = pagination.paginate_queryset(users, request)
         # 对数据进行序列化
         ser = UsersPageSerializer(page_users, many=True)
-        response_data = json.dumps(ser.data, ensure_ascii=False)
-        return HttpResponse(response_data)
+        # response_data = json.dumps(ser.data, ensure_ascii=False)
+        # return HttpResponse(response_data)
+        return pagination.get_paginated_response(ser.data)
 
 
