@@ -219,6 +219,7 @@ class GenericAPIView(views.APIView):
 
     def filter_queryset(self, queryset):
         """
+        交给自己的get_object方法和mixins.py中ListModelMixin类的list方法调用
         Given a queryset, filter it with whichever filter backend is in use.
 
         You are unlikely to want to override this method, although you may need
@@ -227,6 +228,7 @@ class GenericAPIView(views.APIView):
         default queryset.
         """
         for backend in list(self.filter_backends):
+            # 调用过滤器实例对象的filter_queryset方法
             queryset = backend().filter_queryset(self.request, queryset, self)
         return queryset
 
