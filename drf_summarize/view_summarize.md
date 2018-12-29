@@ -411,9 +411,9 @@ class ViewSetMixin(object):
 
         return reverse(url_name, *args, **kwargs)
 
-# 以下三个类都只需要制定generics.GenericAPIView中的几个参数，
-# 然后在url中xxx.as_view({'get':'list', 'post':'creat'.....})即可
 
+# 该类继承了ViewSetMixin, generics.GenericAPIView目的覆盖APIview中的as_view和initialize_request方法
+# 并与mixins.py中的几个类配合使用让其他类继承
 class GenericViewSet(ViewSetMixin, generics.GenericAPIView):
     """
     The GenericViewSet class does not provide any actions by default,
@@ -422,7 +422,8 @@ class GenericViewSet(ViewSetMixin, generics.GenericAPIView):
     """
     pass
 
-
+# 以下三个类都只需要制定generics.GenericAPIView中的几个参数，
+# 然后在url中xxx.as_view({'get':'list', 'post':'creat'.....})即可
 class ReadOnlyModelViewSet(mixins.RetrieveModelMixin,
                            mixins.ListModelMixin,
                            GenericViewSet):
